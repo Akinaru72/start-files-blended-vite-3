@@ -1,38 +1,40 @@
-// {
-// flag,
-// capital,
-// countryName,
-// languages = [],
-// population,
-// }
+import { useLocation } from 'react-router-dom';
+import { useRef } from 'react';
+import css from './CountryInfo.module.css';
+import GoBackBtn from '../GoBackBtn/GoBackBtn';
 
-const CountryInfo = () => {
+export default function CountryInfo({
+  country: { flag, capital, countryName, population, languages = [] },
+}) {
+  const location = useLocation();
+  console.log(location);
+  const backLink = useRef(location.state ?? '/country');
+  console.log('REF', backLink);
   return (
-    <h2>CountryInfo</h2>
-    // <div className={styles.wrapper}>
-    //   <div className={styles.flag}>
-    //     <img className={styles.img} src={} alt={} />
-    //   </div>
-    //   <div className={styles.box}>
-    //     <h3 className={styles.capital}>
-    //       Capital: <span className={styles.accent}>{}</span>
-    //     </h3>
+    <>
+      <GoBackBtn backLink={backLink.current} />
+      <div className={css.wrapper}>
+        <div className={css.flag}>
+          <img className={css.img} src={flag} alt={countryName} />
+        </div>
+        <div className={css.box}>
+          <h3 className={css.capital}>
+            Capital: <span className={css.accent}>{capital}</span>
+          </h3>
 
-    //     <h1 className={styles.title}>
-    //       {countryName === 'Russian Federation' ? 'MORDOR' : countryName}
-    //     </h1>
+          <h1 className={css.title}>
+            {countryName === 'Russian Federation' ? 'MORDOR' : countryName}
+          </h1>
 
-    //     <p className={styles.details}>
-    //       Population: <span className={styles.accent}>{}</span>
-    //     </p>
+          <p className={css.details}>
+            Population: <span className={css.accent}>{population}</span>
+          </p>
 
-    //     <p className={styles.details}>
-    //       Languages:{' '}
-    //       <span className={styles.accent}>{}</span>
-    //     </p>
-    //   </div>
-    // </div>
+          <p className={css.details}>
+            Languages: <span className={css.accent}>{languages}</span>
+          </p>
+        </div>
+      </div>
+    </>
   );
-};
-
-export default CountryInfo;
+}
